@@ -1,20 +1,15 @@
-import React, { useEffect } from 'react';
-import { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { getWithAccessToken } from '../../../../midleware/api';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { setVentas } from '../../../../redux/actions/ventasActions';
 
 export const ContadorVentas = () => {
-    const [mensaje, setMensaje] = useState('');
 
     const ventas = useSelector((state) => state.ventasReducer.ventas);
     return (
         <main>
 
             <div className="ventas">
-                <spam><strong>Cantidad de ventas:</strong></spam>{" "}
-                <spam>El vendedor tiene: {ventas ? `${ventas.length}`: '0'} ventas</spam>
+                <spam><strong>*Cantidad de ventas:</strong></spam>{" "}
+                <spam style={{color:"red"}}>El vendedor tiene {ventas ? `${ventas.length}`: '0'} ventas</spam>
             </div>
 
 

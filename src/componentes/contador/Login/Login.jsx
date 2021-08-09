@@ -67,7 +67,7 @@ const Login = () => {
       <input type="password" name="password" ref={passwordRef} />
       <button onClick={() => login()}> Login </button>
 
-      {error && <div className="error"> {error} </div>}
+      {error && <div style={{color:"red"}}> {error} </div>}
 
 
       <div>

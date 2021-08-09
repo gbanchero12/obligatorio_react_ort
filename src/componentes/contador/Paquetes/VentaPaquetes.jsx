@@ -113,7 +113,7 @@ const VentaPaquetes = (props) => {
             <Form.Control type="number" ref={ninosRef} />
         </div>
         <button onClick={() => agregarPaquete(idVendedor)}> Agregar </button>
-        <spam class="error">{mensaje}</spam>
+        <spam style={{color:"red"}}>{mensaje}</spam>
 
     </div>
     )

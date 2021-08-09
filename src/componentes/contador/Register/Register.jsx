@@ -60,7 +60,7 @@ const history = useHistory()
             <input type="password" name="password" ref={passwordRef} />
             <button onClick={() => registro()}> Registrar </button>
             <div>ID Vendedor:{id}        </div>
-            {mensaje && <div className="error"> {mensaje} </div>}
+            {mensaje && <div style={{color:"red"}}> {mensaje} </div>}
 
 
         </main>

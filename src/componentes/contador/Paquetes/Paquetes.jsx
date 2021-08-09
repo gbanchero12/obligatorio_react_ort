@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getWithAccessToken } from '../../../midleware/api';
 import { useSelector } from 'react-redux';
 import { setPaquetes } from '../../../redux/actions/paquetesAction';
-import Image from 'react-image-resizer';
+
 import VentaPaquetes from './VentaPaquetes';
 import { useHistory, withRouter } from 'react-router-dom';
 import Ventas from '../Ventas/Ventas';
+import { Col, Row, Container } from 'react-bootstrap';
+import Destinos from './Destinos';
 
 const Paquetes = () => {
 
@@ -42,48 +44,32 @@ const Paquetes = () => {
     let usuario = useSelector((state) => state.loginReducer.usuario);
     let id = useSelector((state) => state.loginReducer.id);
     return (
-        <div className="container">
+        <Container>
+            <Row>
+                <Col>
+                    <h1>Administrador</h1>
+                    <h2>Usuario actual: {usuario}</h2>
+                    <h2>ID Vendedor: {id}</h2>
+                    <button onClick={() => { history.push("panel") }}> Panel  </button>
 
-          <div><h2>Usuario actual: {usuario}</h2>
-      <h2>ID Vendedor: {id}</h2>
-      <button onClick={() => { history.push("panel")}}> Panel  </button>
-      </div>
-
-                    
-                    <div className="row paquetes float-left">
-
-                        <h1>Vender paquete:</h1>
-                        {paquetes && <VentaPaquetes paquetes={paquetes} />}
-                        <h2>Destinos disponibles:</h2>
-
-                        {paquetes ? Object.keys(paquetes).map((key, indice) => (
-                            <div key={indice}>
-                                <div>{`Nombre: USD ${paquetes[key].nombre}`}</div>
-                                <div>{`Precio mayor: USD ${paquetes[key].precio_mayor}`}</div>
-                                <div>{`Precio menor: USD ${paquetes[key].precio_menor}`}</div>
-                                <div class="align-center"><Image
-                                    img
-                                    src={`https://destinos.develotion.com/imgs/${paquetes[key].foto}`}
-                                    alt="Destino"
-                                    class="center"
-                                    height={200}
-                                    width={200}
-                                /></div>
-                            </div>
-                        )) : <div>{mensaje}</div>}
-                    </div>
-
-                    <div className="row ventas">
-
-                        <Ventas/>
-                    </div>
-
-
-        </div>
-                );
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <h3>Vender paquete:</h3>
+                    {paquetes && <VentaPaquetes paquetes={paquetes} />}
+                    <Ventas />
+                </Col>
+                <Col>
+                    {paquetes && <Destinos paquetes={paquetes} mensaje={mensaje} />}
+                </Col>
+            </Row>
+            <button onClick={() => { localStorage.setItem("token", ""); history.push("/login"); }}>Logout</button>
+        </Container>
+    );
 };
 
-                export default withRouter(Paquetes);
+export default withRouter(Paquetes);
 
 
 /*

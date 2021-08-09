@@ -9,7 +9,7 @@ import loginReducer from './redux/reducers/loginReducer';
 import paquetesReducer from './redux/reducers/paquetesReducer';
 import ventasReducer from './redux/reducers/ventasReducer';
 import App from './App';
-
+import "typeface-roboto";
 import './index.css';
 
 const rootReducer = combineReducers({

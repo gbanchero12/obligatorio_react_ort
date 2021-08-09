@@ -36,7 +36,7 @@ const TopDestinos = () => {
   const usuariosTop = usuarios_destino && usuarios_destino.filter(ud => ud.cantidadVendidos > 3);
 
   return (<>
-    <h1>Top Destinos</h1>
+    <h3>Top Destinos</h3>
     {usuariosTop ? usuariosTop
       .map(ut => (
         <Card style={{ margin: '10px', width: '18rem' }}>
@@ -58,7 +58,7 @@ const DestinosAPromocionar = () => {
 
   return (<>
     <div >
-      <h1>Destinos a promocionar</h1>
+      <h3>Destinos a promocionar</h3>
       {usuarios_menos_vendidos ? usuarios_menos_vendidos
         .map(ut => (
           <Card style={{ margin: '10px', width: '18rem' }}>
@@ -78,7 +78,7 @@ const ListaDestinos = () => {
   const usuarios_destino = procesarInfo(usuarios, destinos);
   return (
     <div >
-      <h1> Todos los destinos </h1>
+      <h3> Todos los destinos </h3>
       <Container fluid>
         <Row>
           <Col>
@@ -126,7 +126,7 @@ const PrecioPorDestino = () => {
 
   return (
     <div>
-      <h1> Precio promedio por destino </h1>
+      <h3> Precio promedio por destino </h3>
       <Bar data={data} />
     </div>
   );
@@ -154,33 +154,41 @@ const PersonasPorDestino = () => {
 
   return (
     <div >
-      <h1> Personas por destino </h1>
+      <h3> Personas por destino </h3>
       <Bar data={data} />
     </div>
   );
 };
 
-const Panel = () => {  
+const Panel = () => {
   const history = useHistory();
-//TODO: controlar si vienen por url que cargue todo
+  //TODO: controlar si vienen por url que cargue todo
   return (
     <>
       <Container fluid>
+        
+        
+        <h1>Panel</h1>
+        <Row>
+          <Col>
+            <ListaDestinos />
+          </Col>
+          <Col>
+            <PersonasPorDestino />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <PrecioPorDestino />
+          </Col>
+          <Col>
+            <TopDestinos />
+          </Col>
+          <Col>
+            <DestinosAPromocionar />
+          </Col>
+        </Row>
         <button onClick={() => { history.goBack() }}>Atras</button>
-        <Row>
-
-          <ListaDestinos />
-          <PersonasPorDestino />
-
-        </Row>
-        <Row>
-
-          <PrecioPorDestino />
-          <TopDestinos />
-          <DestinosAPromocionar />
-
-        </Row>
-
       </Container>
     </>
   );

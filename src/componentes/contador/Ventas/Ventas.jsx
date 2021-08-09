@@ -46,17 +46,17 @@ const Ventas = () => {
             </div>
 
             <div className="ventas">
-                <h1>Ventas:</h1>
+                <h3>Ventas:</h3>
                 {ventas ? Object.keys(ventas).map((key, indice) => (
                     <div key={indice} className="">
-                        <div>{`Id ${ventas[key].id}`}</div>
-                        <div>{`Vendedor ${ventas[key].vendedor_id}`}</div>
-                        <div>{`Nombre cliente ${ventas[key].nombre_cliente}`}</div>
-                        <div>{`Cantidad mayores ${ventas[key].cantidad_mayores}`}</div>
-                        <div>{`Cantidad menores ${ventas[key].cantidad_menores}`}</div>
+                        <div>{`Id ${ventas[key].id} - `}
+                        {`Vendedor ${ventas[key].vendedor_id} - `}
+                        {`Nombre cliente ${ventas[key].nombre_cliente} - `}
+                        {`Cantidad mayores ${ventas[key].cantidad_mayores} - `}
+                        {`Cantidad menores ${ventas[key].cantidad_menores} - `}</div>
                         <br></br>
                     </div>
-                )) : <div>{mensaje}</div>}
+                )) : <div style={{color:"red"}}>{mensaje}</div>}
             </div>
 
 
