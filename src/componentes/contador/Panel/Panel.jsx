@@ -5,23 +5,69 @@ import { Bar } from 'react-chartjs-2';
 import { useHistory } from 'react-router-dom';
 
 
-const procesarInfo = (usuarios, destinos) => {
-  return destinos && usuarios && destinos.map(destino => {
+const procesarInfo = (ventas, destinos) => {
+  return destinos && ventas && destinos.map(destino => {
+    let vendidos = ventas.filter(ven => ven.id_paquete === destino.id);
     return {
       nombre: destino.nombre,
-      cantidad: usuarios.filter(usu => usu.id_paquete === destino.id)
+      cantidad: ventas.filter(usu => usu.id_paquete === destino.id)
         .map(usu => usu.cantidad_menores + usu.cantidad_mayores)
         .reduce((result, item) => {
           return result + item;
         }, 0),
-      precioPromedio: usuarios.filter(usu => usu.id_paquete === destino.id)
+      precioPromedio: ventas.filter(usu => usu.id_paquete === destino.id)
         .map(usu => ((usu.cantidad_menores * destino.precio_menor) + (usu.cantidad_mayores * destino.precio_mayor))
           / (usu.cantidad_mayores + usu.cantidad_menores)) //QMenores*Pm + QMayores*PM / Tcantidad
         .reduce((result, item) => {
           return result + item;
-        }, 0)
+        }, 0),
+      cantidadVendidos: vendidos && vendidos.length
+
+
     }
   });
+}
+
+
+const TopDestinos = () => {
+  const usuarios = useSelector((state) => state.ventasReducer.ventas);
+  const destinos = useSelector((state) => state.paquetesReducer.paquetes);
+  const usuarios_destino = procesarInfo(usuarios, destinos);
+  const usuariosTop = usuarios_destino && usuarios_destino.filter(ud => ud.cantidadVendidos > 3);
+
+  return (<>
+    <h1>Top Destinos</h1>
+    {usuariosTop ? usuariosTop
+      .map(ut => (
+        <Card style={{ margin: '10px', width: '18rem' }}>
+          <Card.Body>
+            <Card.Title>{ut.nombre}</Card.Title>
+            <Card.Text>{ut.cantidadVendidos}</Card.Text>
+          </Card.Body>
+        </Card>
+      )) : <div>No hay usuarios con más de tres ventas asociadas</div>}
+  </>);
+}
+
+
+const DestinosAPromocionar = () => {
+  const usuarios = useSelector((state) => state.ventasReducer.ventas);
+  const destinos = useSelector((state) => state.paquetesReducer.paquetes);
+  const usuarios_destino = procesarInfo(usuarios, destinos);
+  const usuarios_menos_vendidos = usuarios_destino && usuarios_destino.filter(ud => ud.cantidadVendidos === 0);
+
+  return (<>
+    <h1>Destinos a promocionar</h1>
+    {usuarios_menos_vendidos ? usuarios_menos_vendidos
+      .map(ut => (
+        <Card style={{ margin: '10px', width: '18rem' }}>
+          <Card.Body>
+            <Card.Title>{ut.nombre}</Card.Title>
+            <Card.Text>Sin ventas</Card.Text>
+          </Card.Body>
+        </Card>
+      )) : <div>No hay usuarios sin ventas asociadas</div>}
+  </>);
 }
 
 const ListaDestinos = () => {
@@ -143,6 +189,12 @@ const Panel = () => {
         </Col>
         <Col>
           <PrecioPorDestino />
+        </Col>
+        <Col>
+          <TopDestinos />
+        </Col>
+        <Col>
+          <DestinosAPromocionar />
         </Col>
       </Row>
     </>

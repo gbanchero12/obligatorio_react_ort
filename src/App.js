@@ -5,7 +5,7 @@ import Paquetes from './componentes/contador/Paquetes/Paquetes';
 import Registro from './componentes/contador/Register/Register';
 import Ventas from './componentes/contador/Ventas/Ventas';
 import { Container, Col, Row } from 'react-bootstrap';
-import Panel from './componentes/contador/Personas/Personas';
+import Panel from './componentes/contador/Panel/Panel';
 
 const App = () => (
   <div className="App">
