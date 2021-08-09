@@ -13,8 +13,8 @@ export const ContadorVentas = () => {
         <main>
 
             <div className="ventas">
-                <h2>Cantidad de ventas:</h2>
-                <p>El vendedor tiene: {ventas ? `${ventas.length}`: '...'} ventas</p>
+                <spam><strong>Cantidad de ventas:</strong></spam>{" "}
+                <spam>El vendedor tiene: {ventas ? `${ventas.length}`: '0'} ventas</spam>
             </div>
 
 

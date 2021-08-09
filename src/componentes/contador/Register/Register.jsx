@@ -5,9 +5,10 @@ import { post } from '../../../midleware/api';
 import { useSelector } from 'react-redux';
 import { loginAction } from '../../../redux/actions/loginActions';
 import { loginReducer } from '../../../redux/reducers/loginReducer';
+import { useHistory } from 'react-router-dom';
 
 const Registro = () => {
-
+const history = useHistory()
     const usuarioRef = useRef(null);
     const passwordRef = useRef(null);
     const [mensaje, setMensaje] = useState('');
@@ -38,6 +39,7 @@ const Registro = () => {
                         localStorage.setItem("token", res.apiKey);
                         dispatch(loginAction({ usuario ,id: res.id, token: res.apiKey }))
                         setMensaje("Usuario creado exitosamente.")
+                        history.push("paquetes")
                     } else if (res.codigo === 409) {
                         setMensaje(res.mensaje)
                     } else {

@@ -3,7 +3,7 @@ import { Card, Col, Row, Container } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Bar } from 'react-chartjs-2';
 import { useHistory } from 'react-router-dom';
-
+import "./Panel.css"
 
 const procesarInfo = (ventas, destinos) => {
   return destinos && ventas && destinos.map(destino => {
@@ -57,16 +57,18 @@ const DestinosAPromocionar = () => {
   const usuarios_menos_vendidos = usuarios_destino && usuarios_destino.filter(ud => ud.cantidadVendidos === 0);
 
   return (<>
-    <h1>Destinos a promocionar</h1>
-    {usuarios_menos_vendidos ? usuarios_menos_vendidos
-      .map(ut => (
-        <Card style={{ margin: '10px', width: '18rem' }}>
-          <Card.Body>
-            <Card.Title>{ut.nombre}</Card.Title>
-            <Card.Text>Sin ventas</Card.Text>
-          </Card.Body>
-        </Card>
-      )) : <div>No hay usuarios sin ventas asociadas</div>}
+    <div >
+      <h1>Destinos a promocionar</h1>
+      {usuarios_menos_vendidos ? usuarios_menos_vendidos
+        .map(ut => (
+          <Card style={{ margin: '10px', width: '18rem' }}>
+            <Card.Body>
+              <Card.Title>{ut.nombre}</Card.Title>
+              <Card.Text>Sin ventas</Card.Text>
+            </Card.Body>
+          </Card>
+        )) : <div>No hay usuarios sin ventas asociadas</div>}
+    </div>
   </>);
 }
 
@@ -75,7 +77,7 @@ const ListaDestinos = () => {
   const destinos = useSelector((state) => state.paquetesReducer.paquetes);
   const usuarios_destino = procesarInfo(usuarios, destinos);
   return (
-    <div>
+    <div >
       <h1> Todos los destinos </h1>
       <Container fluid>
         <Row>
@@ -151,52 +153,35 @@ const PersonasPorDestino = () => {
   };
 
   return (
-    <div>
+    <div >
       <h1> Personas por destino </h1>
       <Bar data={data} />
     </div>
   );
 };
 
-const Panel = () => {
-  const dispatch = useDispatch();
+const Panel = () => {  
   const history = useHistory();
-  //const token = useSelector((state) => state.authReducer.token);
-
-  useEffect(() => {
-    /*  if (!token.length) {
-        history.push('/login');
-      }*/
-
-    cargarUsuarios();
-  }, []);
-
-  const cargarUsuarios = async () => {
-    /*const response = await fetch('https://reqres.in/api/users');
-    const datos = await response.json();
-
-    dispatch({ type: 'AGREGAR_USUARIOS', payload: datos.data });*/
-  };
-
+//TODO: controlar si vienen por url que cargue todo
   return (
     <>
-      <Row>
-        <Col>
+      <Container fluid>
+        <button onClick={() => { history.goBack() }}>Atras</button>
+        <Row>
+
           <ListaDestinos />
-        </Col>
-        <Col>
           <PersonasPorDestino />
-        </Col>
-        <Col>
+
+        </Row>
+        <Row>
+
           <PrecioPorDestino />
-        </Col>
-        <Col>
           <TopDestinos />
-        </Col>
-        <Col>
           <DestinosAPromocionar />
-        </Col>
-      </Row>
+
+        </Row>
+
+      </Container>
     </>
   );
 };

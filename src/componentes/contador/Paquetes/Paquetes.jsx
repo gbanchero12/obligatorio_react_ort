@@ -6,18 +6,20 @@ import { useSelector } from 'react-redux';
 import { setPaquetes } from '../../../redux/actions/paquetesAction';
 import Image from 'react-image-resizer';
 import VentaPaquetes from './VentaPaquetes';
+import { useHistory, withRouter } from 'react-router-dom';
+import Ventas from '../Ventas/Ventas';
 
 const Paquetes = () => {
 
 
     const [mensaje, setMensaje] = useState('');
-
+    const history = useHistory()
     const dispatch = useDispatch();
 
-    
+
     useEffect(() => {
         obtenerPaquetes();
-    },[])
+    }, [])
     const obtenerPaquetes = async () => {
         setMensaje("Obteniendo paquetes...")
         await getWithAccessToken('/paquetes.php')
@@ -37,37 +39,51 @@ const Paquetes = () => {
     }
 
     const paquetes = useSelector((state) => state.paquetesReducer.paquetes);
+    let usuario = useSelector((state) => state.loginReducer.usuario);
+    let id = useSelector((state) => state.loginReducer.id);
     return (
-        <main>
+        <div className="container">
 
-            <div className="paquetes">
-                <h1>Destinos disponibles:</h1>
-                {paquetes && <VentaPaquetes paquetes={paquetes} />}
+          <div><h2>Usuario actual: {usuario}</h2>
+      <h2>ID Vendedor: {id}</h2>
+      <button onClick={() => { history.push("panel")}}> Panel  </button>
+      </div>
 
-                
-                {paquetes ? Object.keys(paquetes).map((key, indice) => (
-                    <div key={indice}>
-                        <div>{`Nombre: USD ${paquetes[key].nombre}`}</div>
-                        <div>{`Precio mayor: USD ${paquetes[key].precio_mayor}`}</div>
-                        <div>{`Precio menor: USD ${paquetes[key].precio_menor}`}</div>
-                        <div><Image
-                            img
-                            src={`https://destinos.develotion.com/imgs/${paquetes[key].foto}`}
-                            alt="Destino"
-                            class="center"
-                            height={200}
-                            width={200}
-                        /></div>
+                    
+                    <div className="row paquetes float-left">
+
+                        <h1>Vender paquete:</h1>
+                        {paquetes && <VentaPaquetes paquetes={paquetes} />}
+                        <h2>Destinos disponibles:</h2>
+
+                        {paquetes ? Object.keys(paquetes).map((key, indice) => (
+                            <div key={indice}>
+                                <div>{`Nombre: USD ${paquetes[key].nombre}`}</div>
+                                <div>{`Precio mayor: USD ${paquetes[key].precio_mayor}`}</div>
+                                <div>{`Precio menor: USD ${paquetes[key].precio_menor}`}</div>
+                                <div class="align-center"><Image
+                                    img
+                                    src={`https://destinos.develotion.com/imgs/${paquetes[key].foto}`}
+                                    alt="Destino"
+                                    class="center"
+                                    height={200}
+                                    width={200}
+                                /></div>
+                            </div>
+                        )) : <div>{mensaje}</div>}
                     </div>
-                )) : <div>{mensaje}</div>}
-            </div>
+
+                    <div className="row ventas">
+
+                        <Ventas/>
+                    </div>
 
 
-        </main>
-    );
+        </div>
+                );
 };
 
-export default Paquetes;
+                export default withRouter(Paquetes);
 
 
 /*

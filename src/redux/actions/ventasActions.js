@@ -8,3 +8,7 @@ export const updateVentas = (data) => {
     return { type: 'UPDATE_VENTAS', payload: data };
 };
 
+export const cleanVentas = () => {
+    return { type: 'CLEAN'};
+};
+

@@ -15,8 +15,8 @@ const Ventas = () => {
     const ventas = useSelector((state) => state.ventasReducer.ventas);
     const actualizar = useSelector((state) => state.ventasReducer.updateVentas);
     useEffect(() => {
-        if(actualizar)
-            obtenerVentas();            
+        if (actualizar)
+            obtenerVentas();
     })
 
     const obtenerVentas = async () => {
@@ -25,25 +25,28 @@ const Ventas = () => {
             .then(res => { return res.json() })
             .then(res => {
                 if (res.codigo === 200) {
-                    if (res.ventas)
-                        dispatch(setVentas(res))
-                    else
+                    if (res.ventas.length) { dispatch(setVentas(res)) }
+                    else {
+                        dispatch(setVentas([]));
                         setMensaje("No se encontraron ventas")
+                    }
                 } else {
                     setMensaje("Error obtenendo ventas")
                 }
             }).catch(err => console.error(err));
 
-     
+
     }
 
-    
+
     return (
-        <main>
+        <div>
+            <div class="contador">
+                <ContadorVentas />
+            </div>
 
             <div className="ventas">
-                <h1>Listado de ventas:</h1>
-                <ContadorVentas/>
+                <h1>Ventas:</h1>
                 {ventas ? Object.keys(ventas).map((key, indice) => (
                     <div key={indice} className="">
                         <div>{`Id ${ventas[key].id}`}</div>
@@ -57,7 +60,7 @@ const Ventas = () => {
             </div>
 
 
-        </main>
+        </div>
     );
 };
 
